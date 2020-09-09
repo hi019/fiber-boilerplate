@@ -1,0 +1,6 @@
+.git
+air.toml
+*.sqlite
+tmp
+main
+app

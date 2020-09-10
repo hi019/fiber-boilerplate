@@ -1,9 +1,10 @@
 ## fiber-boilerplate
 fiber-boilerplate is a boilerplate for Golang web services (rest APIs, templating...) built using [Fiber](https://github.com/gofiber/fiber). Its domain-driven design was inspired by [Gorsk](https://github.com/ribice/gorsk). Here are some of the boilerplate's out of the box features:
 
-* **Fast  prototyping** - Uses Facebook's ORM software, [Ent](https://github.com/facebook/ent)
+* **Efficient prototyping** - Uses Facebook's ORM software, [Ent](https://github.com/facebook/ent)
 * **Fast** - Fiber [benchmarks](https://github.com/gofiber/fiber#-benchmarks) show that it's the fastest Golang HTTP framework, handling around 35k req/s. That's much more than net/http.
 * **Extendable** - The boilerplate's domain driven file structure makes organization of large projects easy
+* **Easy deployment** - A Dockerfile is included for easy deployment wherever Docker is supported
 
 ## Note
 This boilerplate uses Fiber v15, which is currently in beta and will be released to stable on September 15th. Its possible there will be breaking changes between now and that date. 
@@ -16,7 +17,7 @@ Available routes:
 * `POST /signup` with body `{email: string, password: string}`
 * `POST /login` with body `{email: string, password: string}`
 
-To use in your own projects, make sure you use your editors Find & Replace feature to replace all refrences to `fiber-boilerplate` with your project's name. You should also rename the directory. 
+To use in your own projects, make sure you use your editors Find & Replace feature to replace all refrences to `fiber-boilerplate` with your project's name. You should also rename the directory. To add additional features like more commands or schemas, see the respective third party documentation like [Cobra](https://github.com/spf13/cobra) or [Ent](https://entgo.io)
 
 ## Directory Structure
 ```
@@ -38,7 +39,6 @@ To use in your own projects, make sure you use your editors Find & Replace featu
 │           └── web
 │               ├── web.go # user module handlers
 │               └── web_test.go # handler tests
-└── README.md
 ```
 
 ### TODO

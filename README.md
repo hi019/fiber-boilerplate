@@ -18,6 +18,29 @@ Available routes:
 
 To use in your own projects, make sure you use your editors Find & Replace feature to replace all refrences to `fiber-boilerplate` with your project's name. You should also rename the directory. 
 
+## Directory Structure
+```
+.
+├── air.toml # air configuration  
+├── cmd # commands
+│   ├── root.go   
+│   └── serve.go
+├── ent # ent (ORM) configuration. This is auto-generated, you only need to edit files in `schema` 
+│   ├── schema
+│   │   └── user.go
+├── main.go
+├── pkg
+│   └── api # api modules
+│       ├── api.go
+│       └── user # user module
+│           ├── service.go # user service defintion, includes dependencies, interfaces and an initialization function that returns an instance of the service
+│           ├── user.go # the actual implementation of the user service
+│           └── web
+│               ├── web.go # user module handlers
+│               └── web_test.go # handler tests
+└── README.md
+```
+
 ### TODO
 - [ ] More unit tests
 - [ ] Incorporate Google's [Wire](https://github.com/google/wire) for Dependency Injection

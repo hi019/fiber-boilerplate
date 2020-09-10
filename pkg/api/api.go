@@ -16,13 +16,15 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// Config contains config values for the API
 type Config struct {
-	Port string
-	DriverName string
+	Port           string
+	DriverName     string
 	DataSourceName string
 }
 
-func Start(cfg *Config) (*fiber.App, *ent.Client,  error) {
+// Start starts the api
+func Start(cfg *Config) (*fiber.App, *ent.Client, error) {
 	// Configure db
 	db, err := ent.Open(cfg.DriverName, cfg.DataSourceName)
 	if err != nil {
@@ -66,7 +68,7 @@ func Start(cfg *Config) (*fiber.App, *ent.Client,  error) {
 	app := fiber.New(fiber.Config{ErrorHandler: errorHandler})
 
 	// Configure api routes and services
-	uw.NewHttp(us.Initialize(db, &logger), app, vd, sessions)
+	uw.NewHTTP(us.Initialize(db, &logger), app, vd, sessions)
 
 	return app, db, nil
 }

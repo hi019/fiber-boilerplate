@@ -11,24 +11,25 @@ import (
 	"github.com/hi019/fiber-boilerplate/pkg/api/user"
 )
 
+// HTTP contains the web service dependencies
 type HTTP struct {
-	svc user.Service
+	svc       user.Service
 	validator *validator.Validate
-	session *session.Session
+	session   *session.Session
 }
 
-func NewHttp(svc user.Service, f *fiber.App, v *validator.Validate, s *session.Session) {
+// NewHTTP creates the HTTP routes for the user module
+func NewHTTP(svc user.Service, f *fiber.App, v *validator.Validate, s *session.Session) {
 	h := &HTTP{svc, v, s}
 
 	f.Post("/signup", h.create)
 	f.Post("/login", h.login)
 }
 
-
 func (h *HTTP) create(c *fiber.Ctx) error {
 	// Parse request
-	req := &struct{
-		Email string `validate:"required,email"`
+	req := &struct {
+		Email    string `validate:"required,email"`
 		Password string `validate:"required"`
 	}{}
 	if err := c.BodyParser(req); err != nil {
@@ -46,7 +47,7 @@ func (h *HTTP) create(c *fiber.Ctx) error {
 	}
 
 	// Create user
-	e, err := h.svc.Create(req.Email, req.Password, c.Context())
+	e, err := h.svc.Create(c.Context(), req.Email, req.Password)
 	if err != nil {
 		switch err.(type) {
 		default:
@@ -60,17 +61,17 @@ func (h *HTTP) create(c *fiber.Ctx) error {
 	}
 
 	// Send response
-	res := struct{
+	res := struct {
 		Email string
-		ID int
+		ID    int
 	}{e.Email, e.ID}
 	return c.JSON(res)
 }
 
 func (h *HTTP) login(c *fiber.Ctx) error {
 	// Parse request
-	req := &struct{
-		Email string `validate:"required,email"`
+	req := &struct {
+		Email    string `validate:"required,email"`
 		Password string `validate:"required"`
 		Remember string
 	}{}
@@ -88,7 +89,7 @@ func (h *HTTP) login(c *fiber.Ctx) error {
 	}
 
 	// Login user
-	e, err := h.svc.Login(req.Email, req.Password, c.Context())
+	e, err := h.svc.Login(c.Context(), req.Email, req.Password)
 	// Check for not found error
 	if err != nil {
 		switch err.(type) {
@@ -108,11 +109,10 @@ func (h *HTTP) login(c *fiber.Ctx) error {
 
 	sess.Set("id", e.ID)
 
-
 	// Send response
-	res := struct{
+	res := struct {
 		Email string
-		ID int
+		ID    int
 	}{e.Email, e.ID}
 	return c.JSON(res)
 }

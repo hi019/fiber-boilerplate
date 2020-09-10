@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/gofiber/session"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hi019/fiber-boilerplate/ent"
@@ -33,7 +34,7 @@ func createAPI(t *testing.T) (*fiber.App, *ent.Client) {
 	svc := us.Initialize(client, logger)
 	vd := validator.New()
 
-	web.NewHttp(svc, app, vd)
+	web.NewHTTP(svc, app, vd, &session.Session{})
 
 	return app, client
 }
@@ -88,4 +89,3 @@ func TestSignup(t *testing.T) {
 		})
 	}
 }
-
